@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -35,6 +36,10 @@ public class RegistrationServlet extends HttpServlet {
 				request.setAttribute("status","failed");
 			}
 			rd.forward(request,response);
+		}
+		catch(SQLIntegrityConstraintViolationException e) {
+			request.setAttribute("status", "usernametaken");
+			rd.forward(request, response);
 		}
 		catch(Exception e) {
 			System.out.println(e);
